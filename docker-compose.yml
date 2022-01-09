@@ -1,0 +1,9 @@
+version: "3.7"
+services:  
+  cognitive-exercises-frontend:
+    build: ./
+    image: cognitive-exercises-frontend:0.0.2
+#    depends_on:
+#      - cognitive-exercises-backend
+    ports:
+      - "80:80"
