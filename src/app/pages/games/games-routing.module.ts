@@ -16,7 +16,7 @@ const libRoutes: Routes = [
       {
         path: 'play',
         component: MemoryBoardComponent
-      },
+      }
     ]
   },
   {

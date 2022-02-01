@@ -3,12 +3,12 @@
     <div class="col-2">
       <p>Uncovered pairs: {{numOfUncoveredPairs()}}</p>
       <div>
-        <a [routerLink]="['../']" *ngIf="gameIsOn" class="btn btn-primary" role="button">Play again</a>
-        <button class="btn btn-primary" *ngIf="gameIsOn" (click)="onSave()">Save game</button>
+        <a [routerLink]="['../']" *ngIf="gameFinished" class="btn btn-primary" role="button">Play again</a>
+        <button class="btn btn-primary" *ngIf="!gameFinished" (click)="onSave()">Save game</button>
       </div>
-      <div *ngIf="!gameIsOn">
+      <div *ngIf="gameFinished">
         <h4>Congratulations, You won!</h4>
-        <p>You've won {{pointsWon}} points.</p>
+        <p>You've gained {{pointsWon}} points.</p>
       </div>
     </div>
     <div class="col-9">

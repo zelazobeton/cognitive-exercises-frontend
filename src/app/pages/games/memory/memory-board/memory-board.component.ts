@@ -12,7 +12,7 @@ export class MemoryBoardComponent implements OnInit, OnDestroy {
   readonly board: MemoryBoardDto;
   private firstTileId: TileClick;
   private secondTileId: TileClick;
-  public gameIsOn: boolean;
+  public gameFinished: boolean;
   private matchedPairs: number;
   public pointsWon: number;
   private saveScoreSub: Subscription;
@@ -25,7 +25,7 @@ export class MemoryBoardComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.firstTileId = null;
     this.secondTileId = null;
-    this.gameIsOn = true;
+    this.gameFinished = false;
     this.matchedPairs = 0;
     this.pointsWon = null;
     this.calcTileSize();
@@ -73,7 +73,7 @@ export class MemoryBoardComponent implements OnInit, OnDestroy {
         .subscribe(
           res => {
             this.pointsWon = res;
-            this.gameIsOn = false;
+            this.gameFinished = true;
           },
         );
     }
