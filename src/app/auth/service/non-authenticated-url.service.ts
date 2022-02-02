@@ -6,9 +6,7 @@ export class NonAuthenticatedUrlService {
   private readonly USER = '/user';
 
   constructor() {
-    this.urlsSet.add('/main' + this.USER + '/v1/login');
     this.urlsSet.add('/main' + this.USER + '/v1/register');
-    this.urlsSet.add('/main' + this.USER + '/v1/scoring-list');
     this.urlsSet.add('/main' + this.USER + '/v1/reset-password');
     this.urlsSet.add('/main/games/v1/data');
     this.urlsSet.add('/main/portfolio/v1/scoreboard');

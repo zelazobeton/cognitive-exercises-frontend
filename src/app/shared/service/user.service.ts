@@ -26,7 +26,13 @@ export class UserService {
   }
 
   public resetPassword(email: string): Observable<CustomHttpResponse> {
-    return this.http.post<CustomHttpResponse>(`${this.versionedUserHost}/reset-password`, email);
+    return this.http.post<CustomHttpResponse>(`${this.versionedUserHost}/reset-password`, email)
+      .pipe(
+        catchError((error) => {
+          console.log(error);
+          this.notificationService.notify(NotificationType.ERROR, error.error.message);
+          return throwError(error);
+        }));
   }
 
   public fetchUserData(): Observable<UserDto> {

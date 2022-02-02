@@ -5,7 +5,8 @@
     "A new account was created for": "A new account was created for {{username}}.\nPlease check your email for password to log in.",
     "Password successfully changed.": "Password successfully changed.",
     "Avatar updated": "Avatar updated",
-    "You need to log in to access this page": "You need to log in to access this page"
+    "You need to log in to access this page": "You need to log in to access this page",
+    "incorrect credentials": "Username or password are not correct"
   },
   "page": {
     "navbar": {

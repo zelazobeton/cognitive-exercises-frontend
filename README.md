@@ -1,6 +1,11 @@
-# CognitiveExercisesFrontend
+# cognitive-exercises-frontend
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.3.1.
+Frontend for cognitive-exercises app written in Angular 8. 
+
+## Running in docker 
+
+Docker compose file is not to be run on its own. It should be copied into docker compose file that runs all cognitive-exercises microservices. 
+Dockerfile is prepared with nginx setup.
 
 ## Development server
 
@@ -9,10 +14,6 @@ Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app w
 ## Build
 
 Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
-
-## Docker 
-
-Frontend does not start automatically with container as it has to be started after backend is set up. One needs to enter bash in the container by using "docker exec -it {container_name} bash" and run "service nginx start". Docker compose file is not to be run on its own. It should be copied into docker compose file that runs all the services. 
 
 ## Further help
 

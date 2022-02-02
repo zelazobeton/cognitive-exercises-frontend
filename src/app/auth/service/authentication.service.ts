@@ -49,10 +49,12 @@ export class AuthenticationService {
       `${this.authHost}/token`, body.toString(), {
         headers: new HttpHeaders()
           .set('Content-Type', 'application/x-www-form-urlencoded'),
-        observe: `response`})
+        observe: `response`
+      })
       .pipe(
         catchError(errorRes => {
-          this.sendErrorNotification(NotificationType.ERROR, errorRes.error.message);
+          this.sendErrorNotification(NotificationType.ERROR,
+            this.translate.instant('notifications.incorrect credentials'));
           return throwError(errorRes);
         }),
         tap((response: HttpResponse<AuthServerTokenForm>) => {
@@ -90,7 +92,8 @@ export class AuthenticationService {
     return this.http.post<void>(
       `${this.authHost}/logout`, body.toString(), {
         headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded'),
-        observe: `response`})
+        observe: `response`
+      })
       .pipe(
         catchError(errorRes => {
           this.notificationService.notify(NotificationType.ERROR,
@@ -100,7 +103,7 @@ export class AuthenticationService {
         tap(() => {
           this.removeUserDataFromApp();
         })
-    );
+      );
   }
 
   public removeUserDataFromApp() {
@@ -133,7 +136,8 @@ export class AuthenticationService {
     return this.http.post<AuthServerTokenForm>(
       `${this.authHost}/token`, body.toString(), {
         headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded'),
-        observe: `response`})
+        observe: `response`
+      })
       .pipe(
         catchError(errorRes => {
           this.sendErrorNotification(NotificationType.ERROR, errorRes.error.message);

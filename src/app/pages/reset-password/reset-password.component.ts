@@ -18,7 +18,6 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
   public resetPasswordForm: FormGroup;
   public showLoading: boolean;
   private subscriptions: Subscription[] = [];
-  public error: string | null = null;
   public emailInputInvalid = false;
 
   showEmailInvalidError() {
@@ -44,10 +43,8 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
         (response: CustomHttpResponse) => {
           this.notificationService.notify(NotificationType.SUCCESS, response.message);
           this.showLoading = false;
-          this.error = null;
         },
         (errorResponse: HttpErrorResponse) => {
-          this.error = errorResponse.error.message;
           this.showLoading = false;
         }
       )

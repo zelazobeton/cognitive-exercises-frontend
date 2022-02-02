@@ -21,10 +21,9 @@ FROM nginx:latest
 COPY --from=build /usr/local/app/dist/cognitive-exercises-frontend /usr/share/nginx/html
 COPY --from=build /usr/local/app/default.conf /etc/nginx/conf.d/default.conf
 
-# Container will do nothing and nginx needs to be started manually - "service nginx start"
-# this way it can be started aftr backend is set up
-ENTRYPOINT ["tail"]
-CMD ["-f","/dev/null"]
+# Uncomment these lines to disable nginx automatic startup. It will then need to be started manually - "service nginx start"
+# ENTRYPOINT ["tail"]
+# CMD ["-f","/dev/null"]
 
 # Expose port 80
 EXPOSE 80
