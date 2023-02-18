@@ -1,17 +1,17 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import {HomeComponent} from './pages/home/home.component';
 import {RegisterComponent} from './pages/register/register.component';
-import {LoginPageComponent} from './pages/login-page/login-page.component';
-import {ProfileComponent} from './pages/profile/profile.component';
 import {AuthenticationGuard} from './auth/guard/authentication.guard';
 import {ResetPasswordComponent} from './pages/reset-password/reset-password.component';
+import {HomePageComponent} from './home/home-page/home-page.component';
+import {ProfileComponent} from './pages/profile/profile.component';
+import {LoginPageComponent} from './pages/login-page/login-page.component';
 
 
 const routes: Routes = [
   {
     path: '',
-    component: HomeComponent,
+    component: HomePageComponent,
     pathMatch: 'full'
   },
   {

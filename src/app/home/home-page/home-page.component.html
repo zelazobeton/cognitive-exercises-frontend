@@ -1,6 +1,6 @@
 <div class="container">
   <div class="row">
-    <div class="col-8" *ngFor="let game of gamesData">
+    <div class="col-8" *ngFor="let game of gamesData$ | async">
       <div class="card" style="width: 10rem;">
         <div>
           <img class="card-img-top card-img" [src]="game.icon" alt="">
