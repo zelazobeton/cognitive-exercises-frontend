@@ -2,6 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {MemoryService} from '../memory.service';
 import {Subscription} from 'rxjs';
 import {MemoryBoardDto, TileClick} from './memory-board';
+import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
   selector: 'app-memory-board',
@@ -18,8 +19,11 @@ export class MemoryBoardComponent implements OnInit, OnDestroy {
   private saveScoreSub: Subscription;
   public tileSize: number;
 
-  constructor(private memoryService: MemoryService) {
+  constructor(private router: Router, private route: ActivatedRoute, private memoryService: MemoryService) {
     this.board = this.memoryService.getMemoryBoard();
+    if (this.board == null) {
+      this.router.navigate(['/memory'], {relativeTo: this.route});
+    }
   }
 
   ngOnInit() {
@@ -74,6 +78,7 @@ export class MemoryBoardComponent implements OnInit, OnDestroy {
           res => {
             this.pointsWon = res;
             this.gameFinished = true;
+            this.memoryService.clearCachedBoard();
           },
         );
     }

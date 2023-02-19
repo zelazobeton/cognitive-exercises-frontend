@@ -8,10 +8,10 @@ import {HttpErrorResponse} from '@angular/common/http';
 
 @Component({
   selector: 'app-profile',
-  templateUrl: './profile.component.html',
-  styleUrls: ['./profile.component.css']
+  templateUrl: './profile-page.component.html',
+  styleUrls: ['./profile-page.component.css']
 })
-export class ProfileComponent implements OnInit, OnDestroy {
+export class ProfilePageComponent implements OnInit, OnDestroy {
   currentCard: string;
   private userSub: Subscription;
   public userData: UserDto;

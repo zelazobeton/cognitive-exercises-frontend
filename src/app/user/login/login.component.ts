@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit, Output} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Subscription} from 'rxjs';
 import {ActivatedRoute, Router} from '@angular/router';
 import {AuthenticationService} from '../../auth/service/authentication.service';
@@ -7,11 +7,11 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {AuthForm} from '../../shared/model/input-forms';
 
 @Component({
-  selector: 'app-login-page',
-  templateUrl: './login-page.component.html',
-  styleUrls: ['./login-page.component.css']
+  selector: 'app-login',
+  templateUrl: './login.component.html',
+  styleUrls: ['./login.component.css']
 })
-export class LoginPageComponent implements OnInit, OnDestroy {
+export class LoginComponent implements OnInit, OnDestroy {
   public loginForm: FormGroup;
   private subscriptions: Subscription[] = [];
   public showLoading: boolean;

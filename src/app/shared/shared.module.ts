@@ -4,6 +4,7 @@ import {LoginDropdownComponent} from './login-dropdown/login-dropdown.component'
 import {TranslateModule} from '@ngx-translate/core';
 import {CommonModule} from '@angular/common';
 import {RouterModule} from '@angular/router';
+import {ReactiveFormsModule} from '@angular/forms';
 
 @NgModule({
   declarations: [NavbarComponent, LoginDropdownComponent],
@@ -12,7 +13,8 @@ import {RouterModule} from '@angular/router';
   imports: [
     TranslateModule,
     CommonModule,
-    RouterModule
+    RouterModule,
+    ReactiveFormsModule
   ]
 })
 export class SharedModule {

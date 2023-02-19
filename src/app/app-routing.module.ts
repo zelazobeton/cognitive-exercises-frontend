@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import {RegisterComponent} from './pages/register/register.component';
+import {RegisterComponent} from './user/register/register.component';
 import {AuthenticationGuard} from './auth/guard/authentication.guard';
-import {ResetPasswordComponent} from './pages/reset-password/reset-password.component';
+import {ResetPasswordComponent} from './user/reset-password/reset-password.component';
 import {HomePageComponent} from './home/home-page/home-page.component';
-import {ProfileComponent} from './pages/profile/profile.component';
-import {LoginPageComponent} from './pages/login-page/login-page.component';
+import {ProfilePageComponent} from './user/profile-page/profile-page.component';
+import {LoginComponent} from './user/login/login.component';
 
 
 const routes: Routes = [
@@ -21,7 +21,7 @@ const routes: Routes = [
   },
   {
     path: 'login',
-    component: LoginPageComponent,
+    component: LoginComponent,
     pathMatch: 'full'
   },
   {
@@ -31,7 +31,7 @@ const routes: Routes = [
   },
   {
     path: 'profile',
-    component: ProfileComponent,
+    component: ProfilePageComponent,
     pathMatch: 'full',
     canActivate: [AuthenticationGuard]
   },

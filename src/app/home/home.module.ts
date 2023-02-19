@@ -8,14 +8,12 @@ import {HomeEffects} from './state/home.effects';
 import {NotificationModule} from '../notification/notification.module';
 import {CommonModule} from '@angular/common';
 import {AppRoutingModule} from '../app-routing.module';
-import {BrowserModule} from '@angular/platform-browser';
 
 @NgModule({
   declarations: [HomePageComponent, ScoreboardComponent],
   providers: [],
   exports: [],
-  imports: [BrowserModule,
-            AppRoutingModule,
+  imports: [AppRoutingModule,
             CommonModule,
             NotificationModule,
             StoreModule.forFeature('home', homeReducer),

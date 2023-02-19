@@ -4,19 +4,6 @@ import { Component, OnInit } from '@angular/core';
   selector: 'app-memory',
   templateUrl: './memory-main.component.html'
 })
-export class MemoryMainComponent implements OnInit {
-  difficultyLevel: number;
-  gameIsOn: boolean;
-
+export class MemoryMainComponent {
   constructor() { }
-
-  ngOnInit() {
-    this.gameIsOn = false;
-  }
-
-  onStartGame(difficultyLvl: number) {
-    this.difficultyLevel = difficultyLvl;
-    this.gameIsOn = true;
-  }
-
 }
