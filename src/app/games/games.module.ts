@@ -11,7 +11,7 @@ import {MemoryService} from './memory/memory.service';
 @NgModule({
   declarations: [MemoryMainComponent, MemoryStartComponent, MemoryBoardComponent, MemoryTileComponent],
   providers: [MemoryService],
-  exports: [MemoryMainComponent],
+  exports: [],
   imports: [CommonModule, GamesModuleRouting, ReactiveFormsModule, FormsModule]
 })
 export class GamesModule {}

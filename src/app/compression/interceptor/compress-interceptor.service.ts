@@ -6,13 +6,13 @@ import {
   HttpInterceptor, HttpHeaders
 } from '@angular/common/http';
 import {Observable} from 'rxjs';
-import {HttpHeader, HttpHeaderContentType, HttpRequestMethod, HttpEncodingType} from '../../app/shared/model/http.enum';
 import * as pako from 'pako';
 import _ from 'lodash';
-import {environment} from '../../environments/environment';
+import {environment} from '../../../environments/environment';
+import {HttpEncodingType, HttpHeader, HttpHeaderContentType, HttpRequestMethod} from '../../shared/model/http.enum';
 
 @Injectable()
-export class CompressInterceptor implements HttpInterceptor {
+export class CompressionInterceptor implements HttpInterceptor {
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     if (this.isPostRequest(request) && this.isToBeCompressed(request)) {
