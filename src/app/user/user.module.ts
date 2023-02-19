@@ -9,7 +9,6 @@ import {ProfilePageComponent} from './profile-page/profile-page.component';
 import {RegisterComponent} from './register/register.component';
 import {ResetPasswordComponent} from './reset-password/reset-password.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {BrowserModule} from '@angular/platform-browser';
 import {TranslateModule} from '@ngx-translate/core';
 
 @NgModule({
@@ -19,7 +18,6 @@ import {TranslateModule} from '@ngx-translate/core';
   exports: [RegisterComponent, LoginComponent],
   imports: [AppRoutingModule,
             CommonModule,
-            BrowserModule,
             FormsModule,
             ReactiveFormsModule,
             TranslateModule,

@@ -15,7 +15,6 @@ import {EffectsModule} from '@ngrx/effects';
 import {StoreDevtoolsModule} from '@ngrx/store-devtools';
 import {environment} from '../environments/environment';
 import {CoreModule} from './core/core.module';
-import {SharedModule} from './shared/shared.module';
 import {GamesModule} from './games/games.module';
 import {UserModule} from './user/user.module';
 
@@ -35,7 +34,6 @@ import {UserModule} from './user/user.module';
     HttpClientModule,
     ReactiveFormsModule,
     NotificationModule,
-    SharedModule,
     UserModule,
     TranslateModule.forRoot({
       loader: {

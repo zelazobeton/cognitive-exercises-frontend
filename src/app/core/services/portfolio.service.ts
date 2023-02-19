@@ -9,7 +9,7 @@ import {NotificationType} from '../../notification/notification-type.enum';
 import {NotificationService} from '../../notification/notification.service';
 import {TranslateService} from '@ngx-translate/core';
 import {CustomHeaders} from '../../auth/enum/custom-headers.enum';
-import {HttpEncodingType} from '../../shared/http.enum';
+import {HttpEncodingType} from '../../shared/model/http.enum';
 
 @Injectable()
 export class PortfolioService {

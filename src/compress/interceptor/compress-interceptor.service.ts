@@ -6,7 +6,7 @@ import {
   HttpInterceptor, HttpHeaders
 } from '@angular/common/http';
 import {Observable} from 'rxjs';
-import {HttpHeader, HttpHeaderContentType, HttpRequestMethod, HttpEncodingType} from '../../app/shared/http.enum';
+import {HttpHeader, HttpHeaderContentType, HttpRequestMethod, HttpEncodingType} from '../../app/shared/model/http.enum';
 import * as pako from 'pako';
 import _ from 'lodash';
 import {environment} from '../../environments/environment';
