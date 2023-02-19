@@ -4,7 +4,7 @@ import * as HomePageActions from './home.page-actions';
 import * as HomeApiActions from './home.api-actions';
 import {catchError, map, mergeMap} from 'rxjs/operators';
 import {of} from 'rxjs';
-import {GamesService} from '../../shared/service/games.service';
+import {GamesService} from '../../core/services/games.service';
 
 @Injectable()
 export class HomeEffects {

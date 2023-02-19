@@ -3,14 +3,13 @@ import {TranslateService} from '@ngx-translate/core';
 import {Observable, Subscription} from 'rxjs';
 import {HttpClient, HttpErrorResponse} from '@angular/common/http';
 import {environment} from '../../../environments/environment';
-import {LocaleDto} from '../model/locale-dto';
+import {LocaleDto} from '../../shared/model/locale-dto';
 
 @Injectable()
 export class TranslationService implements OnDestroy {
   private subscriptions: Subscription[] = [];
   private readonly translationHost = environment.apiUrl + '/main/lang/v1';
 
-  //constructor(private http: HttpClient) {}
   constructor(private http: HttpClient, private translate: TranslateService) {
   }
 

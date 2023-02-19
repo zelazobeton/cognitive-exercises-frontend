@@ -2,10 +2,10 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {environment} from '../../../environments/environment';
 import {Observable, throwError} from 'rxjs';
-import {GameDataDto} from '../model/game-data-dto';
+import {GameDataDto} from '../../shared/model/game-data-dto';
 import {catchError} from 'rxjs/operators';
-import {NotificationType} from '../notification/notification-type.enum';
-import {NotificationService} from '../notification/notification.service';
+import {NotificationType} from '../../notification/notification-type.enum';
+import {NotificationService} from '../../notification/notification.service';
 import {TranslateService} from '@ngx-translate/core';
 
 @Injectable()

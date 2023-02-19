@@ -5,7 +5,7 @@ import {StoreModule} from '@ngrx/store';
 import {EffectsModule} from '@ngrx/effects';
 import {homeReducer} from './state/home.reducer';
 import {HomeEffects} from './state/home.effects';
-import {NotificationModule} from '../shared/notification/notification.module';
+import {NotificationModule} from '../notification/notification.module';
 import {CommonModule} from '@angular/common';
 import {AppRoutingModule} from '../app-routing.module';
 import {BrowserModule} from '@angular/platform-browser';

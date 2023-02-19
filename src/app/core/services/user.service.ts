@@ -2,13 +2,13 @@ import {Injectable} from '@angular/core';
 import {HttpClient, HttpErrorResponse, HttpResponse} from '@angular/common/http';
 import {environment} from '../../../environments/environment';
 import {Observable, throwError} from 'rxjs';
-import {CustomHttpResponse} from '../model/custom-http-response';
-import {ChangePasswordForm} from '../model/input-forms';
-import {UserDto} from '../model/user-dto';
-import {ScoreboardPageDto} from '../model/scoreboard-page-dto';
+import {CustomHttpResponse} from '../../shared/model/custom-http-response';
+import {ChangePasswordForm} from '../../shared/model/input-forms';
+import {UserDto} from '../../shared/model/user-dto';
+import {ScoreboardPageDto} from '../../shared/model/scoreboard-page-dto';
 import {catchError} from 'rxjs/operators';
-import {NotificationType} from '../notification/notification-type.enum';
-import {NotificationService} from '../notification/notification.service';
+import {NotificationType} from '../../notification/notification-type.enum';
+import {NotificationService} from '../../notification/notification.service';
 import {TranslateService} from '@ngx-translate/core';
 
 @Injectable()

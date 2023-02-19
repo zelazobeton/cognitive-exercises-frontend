@@ -3,10 +3,10 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 import {ChangePasswordForm} from '../../../shared/model/input-forms';
 import {HttpErrorResponse} from '@angular/common/http';
-import {UserService} from '../../../shared/service/user.service';
+import {UserService} from '../../../core/services/user.service';
 import {Subscription} from 'rxjs';
-import {NotificationType} from '../../../shared/notification/notification-type.enum';
-import {NotificationService} from '../../../shared/notification/notification.service';
+import {NotificationType} from '../../../notification/notification-type.enum';
+import {NotificationService} from '../../../notification/notification.service';
 import {TranslateService} from '@ngx-translate/core';
 
 @Component({

@@ -1,9 +1,9 @@
 import {Component, OnDestroy, OnInit, NgZone} from '@angular/core';
-import {UserService} from '../../shared/service/user.service';
+import {UserService} from '../../core/services/user.service';
 import {Subscription} from 'rxjs';
 import {Router} from '@angular/router';
 import {UserDto} from '../../shared/model/user-dto';
-import {NotificationService} from '../../shared/notification/notification.service';
+import {NotificationService} from '../../notification/notification.service';
 import {HttpErrorResponse} from '@angular/common/http';
 
 @Component({

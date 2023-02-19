@@ -3,10 +3,10 @@ import {Subscription} from 'rxjs';
 import {Router} from '@angular/router';
 import {HttpErrorResponse} from '@angular/common/http';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {UserService} from '../../shared/service/user.service';
+import {UserService} from '../../core/services/user.service';
 import {AuthenticationService} from '../../auth/service/authentication.service';
-import {NotificationType} from '../../shared/notification/notification-type.enum';
-import {NotificationService} from '../../shared/notification/notification.service';
+import {NotificationType} from '../../notification/notification-type.enum';
+import {NotificationService} from '../../notification/notification.service';
 import {CustomHttpResponse} from '../../shared/model/custom-http-response';
 
 @Component({

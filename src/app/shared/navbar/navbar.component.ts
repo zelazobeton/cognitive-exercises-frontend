@@ -1,8 +1,8 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {AuthenticationService} from '../auth/service/authentication.service';
-import {UserDto} from '../shared/model/user-dto';
+import {UserDto} from '../model/user-dto';
 import {Subscription} from 'rxjs';
 import {Router} from '@angular/router';
+import {AuthenticationService} from '../../auth/service/authentication.service';
 
 @Component({
   selector: 'app-navbar',

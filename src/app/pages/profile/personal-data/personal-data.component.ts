@@ -1,12 +1,12 @@
 import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {FormBuilder} from '@angular/forms';
 import {HttpErrorResponse} from '@angular/common/http';
-import {PortfolioService} from '../../../shared/service/portfolio.service';
+import {PortfolioService} from '../../../core/services/portfolio.service';
 import {Subscription} from 'rxjs';
 import {UserDto} from '../../../shared/model/user-dto';
 import {PortfolioDto} from '../../../shared/model/portfolio-dto';
-import {NotificationType} from '../../../shared/notification/notification-type.enum';
-import {NotificationService} from '../../../shared/notification/notification.service';
+import {NotificationType} from '../../../notification/notification-type.enum';
+import {NotificationService} from '../../../notification/notification.service';
 import {TranslateService} from '@ngx-translate/core';
 
 @Component({

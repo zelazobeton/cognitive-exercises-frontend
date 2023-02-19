@@ -1,7 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Subscription} from 'rxjs';
 import {ScoreboardPageDto, UserScoreDto} from '../../shared/model/scoreboard-page-dto';
-import {UserService} from '../../shared/service/user.service';
+import {UserService} from '../../core/services/user.service';
 
 @Component({
   selector: 'app-scoreboard',
