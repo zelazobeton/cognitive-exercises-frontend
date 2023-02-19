@@ -1,7 +1,7 @@
-import {Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {MemoryService} from '../memory.service';
-import {MemoryBoardDto, TileClick} from './memory';
 import {Subscription} from 'rxjs';
+import {MemoryBoardDto, TileClick} from './memory-board';
 
 @Component({
   selector: 'app-memory-board',

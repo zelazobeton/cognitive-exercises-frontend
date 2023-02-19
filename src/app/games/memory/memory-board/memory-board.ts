@@ -1,4 +1,4 @@
-import {MemoryTileDto} from './memory-tile-dto';
+import {MemoryTileDto} from '../memory-tile/memory-tile-dto';
 
 export interface MemoryBoardDto {
   memoryTiles: MemoryTileDto[];

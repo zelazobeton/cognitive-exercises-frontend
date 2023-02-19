@@ -16,13 +16,13 @@ import {LoginPageComponent} from './pages/login-page/login-page.component';
 import {ProfileComponent} from './pages/profile/profile.component';
 import {ChangePasswordComponent} from './pages/profile/change-password/change-password.component';
 import {PersonalDataComponent} from './pages/profile/personal-data/personal-data.component';
-import {GamesModule} from './pages/games/games.module';
 import {StoreModule} from '@ngrx/store';
 import {EffectsModule} from '@ngrx/effects';
 import {StoreDevtoolsModule} from '@ngrx/store-devtools';
 import {environment} from '../environments/environment';
 import {CoreModule} from './core/core.module';
 import {SharedModule} from './shared/shared.module';
+import {GamesModule} from './games/games.module';
 
 @NgModule({
   declarations: [

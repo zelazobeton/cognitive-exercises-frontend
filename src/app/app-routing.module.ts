@@ -37,7 +37,7 @@ const routes: Routes = [
   },
   {
     path: 'g',
-    loadChildren: () => import('./pages/games/games.module').then(m => m.GamesModule),
+    loadChildren: () => import('./games/games.module').then(m => m.GamesModule),
     canActivate: [AuthenticationGuard]
   },
   {

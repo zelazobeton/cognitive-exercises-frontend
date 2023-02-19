@@ -1,8 +1,8 @@
 import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
-import {MemoryService} from '../../memory.service';
+import {MemoryService} from '../memory.service';
 import {Subscription} from 'rxjs';
-import {MemoryTileDto} from '../memory-tile-dto';
-import {TileClick} from '../memory';
+import {MemoryTileDto} from './memory-tile-dto';
+import {TileClick} from '../memory-board/memory-board';
 
 @Component({
   selector: 'app-memory-tile',

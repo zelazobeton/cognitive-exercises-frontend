@@ -1,13 +1,13 @@
 import {Injectable, OnDestroy} from '@angular/core';
 import {Observable, Subject, Subscription, throwError} from 'rxjs';
-import {MemoryBoardDto} from './memory-board/memory';
 import {HttpClient, HttpParams} from '@angular/common/http';
-import {environment} from '../../../../environments/environment';
 import {catchError, tap} from 'rxjs/operators';
-import {NotificationType} from '../../../notification/notification-type.enum';
-import {NotificationService} from '../../../notification/notification.service';
-import {CustomHttpResponse} from '../../../shared/model/custom-http-response';
 import {TranslateService} from '@ngx-translate/core';
+import {environment} from '../../../environments/environment';
+import {NotificationService} from '../../notification/notification.service';
+import {CustomHttpResponse} from '../../shared/model/custom-http-response';
+import {NotificationType} from '../../notification/notification-type.enum';
+import {MemoryBoardDto} from './memory-board/memory-board';
 
 @Injectable()
 export class MemoryService implements OnDestroy {
