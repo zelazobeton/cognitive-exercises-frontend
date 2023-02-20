@@ -9,6 +9,10 @@ import {RouterModule} from '@angular/router';
 import {ReactiveFormsModule} from '@angular/forms';
 import {NavbarComponent} from './navbar/navbar.component';
 import {LoginDropdownComponent} from './login-dropdown/login-dropdown.component';
+import {EffectsModule} from '@ngrx/effects';
+import {coreReducer} from './state/core.reducer';
+import {CoreEffects} from './state/core.effects';
+import {StoreModule} from '@ngrx/store';
 
 @NgModule({
   declarations: [NavbarComponent, LoginDropdownComponent],
@@ -17,7 +21,9 @@ import {LoginDropdownComponent} from './login-dropdown/login-dropdown.component'
   imports: [TranslateModule,
             CommonModule,
             RouterModule,
-            ReactiveFormsModule]
+            ReactiveFormsModule,
+            StoreModule.forFeature('core', coreReducer),
+            EffectsModule.forFeature([CoreEffects])]
 })
 export class CoreModule {
 };

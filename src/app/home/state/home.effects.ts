@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
-import * as HomePageActions from './home.page-actions';
+import * as HomePageActions from './home.actions';
 import * as HomeApiActions from './home.api-actions';
 import {catchError, map, mergeMap} from 'rxjs/operators';
 import {of} from 'rxjs';

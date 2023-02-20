@@ -1,3 +1,3 @@
-export interface AppState {
+export interface BaseState {
   dummyState: boolean
 }

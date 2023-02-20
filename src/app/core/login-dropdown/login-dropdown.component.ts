@@ -1,22 +1,22 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {Subscription} from 'rxjs';
-import {Router} from '@angular/router';
-import {HttpErrorResponse} from '@angular/common/http';
-import {AuthenticationService} from '../../auth/service/authentication.service';
 import {AuthForm} from '../../shared/model/input-forms';
+import {Store} from '@ngrx/store';
+import {CoreState} from '../state/core.reducer';
+import {loginUserAction} from '../state/core.actions';
+import {loggedUserSelector} from '../state/core.selectors';
+import {tap} from 'rxjs/operators';
 
 @Component({
   selector: 'app-login-dropdown',
   templateUrl: './login-dropdown.component.html',
   styleUrls: ['./login-dropdown.component.css']
 })
-export class LoginDropdownComponent implements OnInit, OnDestroy {
+export class LoginDropdownComponent implements OnInit {
   public loginForm: FormGroup;
-  private subscriptions: Subscription[] = [];
   public showLoading: boolean;
 
-  constructor(private router: Router, private authenticationService: AuthenticationService) {}
+  constructor(private store: Store<CoreState>) {}
 
   ngOnInit(): void {
     this.loginForm = new FormGroup({
@@ -33,16 +33,9 @@ export class LoginDropdownComponent implements OnInit, OnDestroy {
       password: this.loginForm.value.password,
     };
     this.loginForm.reset();
-    this.subscriptions.push(
-      this.authenticationService.login(loginFormData).subscribe(
-        () => this.showLoading = false,
-        (error: HttpErrorResponse) => this.showLoading = false
-        )
+    this.store.dispatch(loginUserAction(loginFormData));
+    this.store.select(loggedUserSelector).pipe(
+      tap(() => this.showLoading = false)
     );
   }
-
-  ngOnDestroy(): void {
-    this.subscriptions.forEach(sub => sub.unsubscribe());
-  }
-
 }

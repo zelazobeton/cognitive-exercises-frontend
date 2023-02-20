@@ -1,36 +1,26 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {Subscription} from 'rxjs';
-import {Router} from '@angular/router';
-import {AuthenticationService} from '../../auth/service/authentication.service';
+import {Component, OnInit} from '@angular/core';
+import {Observable} from 'rxjs';
 import {UserDto} from '../../shared/model/user-dto';
+import {Store} from '@ngrx/store';
+import {loggedUserSelector, State} from '../state/core.selectors';
+import {logoutUserAction} from '../state/core.actions';
 
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.css']
 })
-export class NavbarComponent implements OnInit, OnDestroy {
-  private subscriptions: Subscription[] = [];
-  public usernameLogged: string;
+export class NavbarComponent implements OnInit {
+  loggedUser$: Observable<UserDto>;
 
-  constructor(private authenticationService: AuthenticationService,
-              private router: Router) {
+  constructor(private store: Store<State>) {
   }
 
   ngOnInit() {
-    this.usernameLogged = this.authenticationService.getLoggedUsernameFromLocalStorage();
-    this.subscriptions.push(this.authenticationService.loggedInUser.subscribe((user: UserDto) => {
-      this.usernameLogged = user == null ? null : user.username;
-    }));
-  }
-
-  ngOnDestroy(): void {
-    this.subscriptions.forEach(sub => sub.unsubscribe());
+    this.loggedUser$ = this.store.select(loggedUserSelector);
   }
 
   public onLogout() {
-    this.authenticationService.logout().subscribe(
-      () => this.router.navigateByUrl('/')
-    );
+    this.store.dispatch(logoutUserAction());
   }
 }

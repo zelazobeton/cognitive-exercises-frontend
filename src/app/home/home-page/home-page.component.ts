@@ -2,9 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {Observable} from 'rxjs';
 import {GameDataDto} from '../../shared/model/game-data-dto';
 import {Store} from '@ngrx/store';
-import {HomeState} from '../state/home.reducer';
-import {getGamesDataAction} from '../state/home.page-actions';
-import {gamesDataErrorSelector, gamesDataSelector} from '../state/home.selectors';
+import {getGamesDataAction} from '../state/home.actions';
+import {gamesDataErrorSelector, gamesDataSelector, State} from '../state/home.selectors';
 
 @Component({
   selector: 'app-home',
@@ -16,7 +15,7 @@ export class HomePageComponent implements OnInit {
   public gamesData$: Observable<GameDataDto[]>;
   public gamesDataError$: Observable<string>;
 
-  constructor(private store: Store<HomeState>) {
+  constructor(private store: Store<State>) {
   }
 
   ngOnInit() {

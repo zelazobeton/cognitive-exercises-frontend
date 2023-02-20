@@ -14,7 +14,6 @@ import {EffectsModule} from '@ngrx/effects';
 import {StoreDevtoolsModule} from '@ngrx/store-devtools';
 import {environment} from '../environments/environment';
 import {CoreModule} from './core/core.module';
-import {GamesModule} from './games/games.module';
 import {UserModule} from './user/user.module';
 import {CompressionModule} from './compression/compression.module';
 
@@ -29,7 +28,6 @@ import {CompressionModule} from './compression/compression.module';
     CoreModule,
     BrowserModule,
     FormsModule,
-    GamesModule,
     HomeModule,
     HttpClientModule,
     ReactiveFormsModule,

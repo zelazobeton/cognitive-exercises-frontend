@@ -5,17 +5,17 @@
     <li class="nav-item">
       <a class="nav-link" [routerLink]="['']">{{ 'page.navbar.Choose game' | translate }}</a>
     </li>
-    <li class="nav-item" *ngIf="usernameLogged != null">
-      <a class="nav-link">{{ 'page.navbar.Logged in as' | translate:{'username': usernameLogged} }}</a>
+    <li class="nav-item" *ngIf="loggedUser$ | async as loggedUser">
+      <a class="nav-link">{{ 'page.navbar.Logged in as' | translate:{'username': loggedUser.username } }}</a>
     </li>
-    <li class="nav-item" *ngIf="usernameLogged != null">
+    <li class="nav-item" *ngIf="loggedUser$ | async ">
       <a class="nav-link" [routerLink]="['profile']">{{ 'page.navbar.Profile' | translate }}</a>
     </li>
-    <li class="nav-item" *ngIf="usernameLogged == null">
+    <li class="nav-item" *ngIf="!(loggedUser$ | async)">
       <a class="nav-link" [routerLink]="['register']">{{ 'page.navbar.Sign up' | translate }}</a>
     </li>
-    <app-login-dropdown *ngIf="usernameLogged == null"></app-login-dropdown>
-    <li class="nav-item" *ngIf="usernameLogged != null">
+    <app-login-dropdown *ngIf="!(loggedUser$ | async)"></app-login-dropdown>
+    <li class="nav-item" *ngIf="loggedUser$ | async">
       <a class="nav-link cursor-pointer" (click)="onLogout()">{{ 'page.navbar.Logout' | translate }}</a>
     </li>
   </ul>

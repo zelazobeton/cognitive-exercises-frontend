@@ -1,14 +1,20 @@
 import {createFeatureSelector, createSelector} from '@ngrx/store';
 import {HomeState} from './home.reducer';
+import * as AppState from '../../app.state';
+import {CoreState} from '../../core/state/core.reducer';
 
-const homeFeatureState = createFeatureSelector<HomeState>('home');
+export interface State extends AppState.BaseState {
+  core: CoreState;
+}
+
+const homeFeatureSelector = createFeatureSelector<HomeState>('home');
 
 export const gamesDataSelector = createSelector(
-  homeFeatureState,
+  homeFeatureSelector,
   state => state.gamesData
 );
 
 export const gamesDataErrorSelector = createSelector(
-  homeFeatureState,
+  homeFeatureSelector,
   state => state.getGamesError
 );
