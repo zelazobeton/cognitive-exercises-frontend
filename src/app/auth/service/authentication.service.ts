@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Observable, throwError} from 'rxjs';
 import {environment} from '../../../environments/environment';
-import {UserDto} from '../../shared/model/user-dto';
+import {LoggedUserDto} from '../../shared/model/logged-user-dto';
 import {HttpClient, HttpErrorResponse, HttpHeaders, HttpResponse} from '@angular/common/http';
 import {AuthForm, RegisterForm} from '../../shared/model/input-forms';
 import {catchError, map, tap} from 'rxjs/operators';
@@ -21,7 +21,7 @@ export class AuthenticationService {
   readonly authHost = environment.authorizationServerUrl;
   private token: string;
 
-  private static addUserToLocalStorage(user: UserDto): void {
+  private static addUserToLocalStorage(user: LoggedUserDto): void {
     localStorage.setItem('user', JSON.stringify(user));
   }
 
@@ -31,7 +31,7 @@ export class AuthenticationService {
               private translate: TranslateService) {
   }
 
-  public login(loginForm: AuthForm): Observable<UserDto> {
+  public login(loginForm: AuthForm): Observable<LoggedUserDto> {
     const body = new URLSearchParams();
     body.set('grant_type', 'password');
     body.set('client_id', this.authorizationServerClientId);
@@ -45,15 +45,10 @@ export class AuthenticationService {
         observe: `response`
       })
       .pipe(
-        catchError(errorRes => {
-          this.sendErrorNotification(NotificationType.ERROR,
-            this.translate.instant('notifications.incorrect credentials'));
-          return throwError(errorRes);
-        }),
         map((response: HttpResponse<AuthServerTokenForm>) => {
           this.saveToken(response.body.access_token);
           this.saveRefreshToken(response.body.refresh_token);
-          const loggedUser = new UserDto();
+          const loggedUser = new LoggedUserDto();
           loggedUser.username = loginForm.username;
           AuthenticationService.addUserToLocalStorage(loggedUser);
           return loggedUser;
@@ -61,19 +56,9 @@ export class AuthenticationService {
       );
   }
 
-  public register(registerForm: RegisterForm): Observable<UserDto | HttpErrorResponse> {
-    return this.http.post<UserDto | HttpErrorResponse>(
-      `${this.versionedUserHost}/register`, registerForm, {observe: 'body'})
-      .pipe(
-        catchError(errorRes => {
-          return throwError(errorRes);
-        }),
-        tap((response: UserDto) => {
-          this.notificationService.notify(NotificationType.SUCCESS,
-            this.translate.instant('notifications.A new account was created for', {username: response.username})
-          )
-        })
-      );
+  public register(registerForm: RegisterForm): Observable<LoggedUserDto | HttpErrorResponse> {
+    return this.http.post<LoggedUserDto | HttpErrorResponse>(
+      `${this.versionedUserHost}/register`, registerForm, {observe: 'body'});
   }
 
   public logout(): Observable<HttpResponse<void>> {
@@ -81,7 +66,6 @@ export class AuthenticationService {
     const refreshToken = localStorage.getItem(this.refreshTokenKey);
     body.set('refresh_token', refreshToken);
     body.set('client_id', this.authorizationServerClientId);
-
     return this.http.post<void>(
       `${this.authHost}/logout`, body.toString(), {
         headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded'),

@@ -1,42 +1,26 @@
-import {Component, OnDestroy, OnInit, NgZone} from '@angular/core';
-import {UserService} from '../../core/services/user.service';
-import {Subscription} from 'rxjs';
-import {Router} from '@angular/router';
-import {UserDto} from '../../shared/model/user-dto';
-import {NotificationService} from '../../notification/notification.service';
-import {HttpErrorResponse} from '@angular/common/http';
+import {Component, OnInit} from '@angular/core';
+import {Store} from '@ngrx/store';
+import {UserState} from '../state/user.reducer';
+import {getUserPortfolioAction} from '../state/user.actions';
 
 @Component({
   selector: 'app-profile',
   templateUrl: './profile-page.component.html',
   styleUrls: ['./profile-page.component.css']
 })
-export class ProfilePageComponent implements OnInit, OnDestroy {
+export class ProfilePageComponent implements OnInit {
   currentCard: string;
-  private userSub: Subscription;
-  public userData: UserDto;
 
-  constructor(private userService: UserService, private notificationService: NotificationService,
-              private router: Router) {
+  constructor(private store: Store<UserState>) {
     this.currentCard = null;
   }
 
   ngOnInit() {
-    this.userSub = this.userService.fetchUserData().subscribe(
-      res => {
-        this.userData = res;
-      },
-      (errorResponse: HttpErrorResponse) => this.router.navigateByUrl('/'));
+    this.store.dispatch(getUserPortfolioAction());
   }
 
   onClick(event) {
     const target = event.target || event.currentTarget;
     this.currentCard = target.attributes.id.nodeValue;
-  }
-
-  ngOnDestroy(): void {
-    if (this.userSub != null) {
-      this.userSub.unsubscribe();
-    }
   }
 }

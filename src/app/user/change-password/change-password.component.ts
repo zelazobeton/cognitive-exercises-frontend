@@ -1,24 +1,24 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 import {ChangePasswordForm} from '../../shared/model/input-forms';
-import {HttpErrorResponse} from '@angular/common/http';
 import {UserService} from '../../core/services/user.service';
-import {Subscription} from 'rxjs';
-import {NotificationType} from '../../notification/notification-type.enum';
-import {NotificationService} from '../../notification/notification.service';
-import {TranslateService} from '@ngx-translate/core';
+import {Observable} from 'rxjs';
+import {changePasswordErrorSelector, State} from '../state/user.selectors';
+import {Store} from '@ngrx/store';
+import {changePasswordAction} from '../state/user.actions';
+import {tap} from 'rxjs/operators';
 
 @Component({
   selector: 'app-change-password',
   templateUrl: './change-password.component.html',
   styleUrls: ['./change-password.component.css']
 })
-export class ChangePasswordComponent implements OnInit, OnDestroy {
+export class ChangePasswordComponent implements OnInit {
   public changePasswordForm: FormGroup;
   public loading: boolean;
-  private subscriptions: Subscription[] = [];
   public error: string = null;
+  public error$: Observable<string>;
 
   checkPasswords = (group: FormGroup) => {
     const passwordInput = group.controls.password;
@@ -29,10 +29,8 @@ export class ChangePasswordComponent implements OnInit, OnDestroy {
     passwordConfirmationInput.setErrors({notEquivalent: true});
   };
 
-  constructor(private router: Router, private userService: UserService,
-              private formBuilder: FormBuilder,
-              private notificationService: NotificationService,
-              private translate: TranslateService) {
+  constructor(private store: Store<State>, private router: Router, private userService: UserService,
+              private formBuilder: FormBuilder) {
     this.loading = false;
   }
 
@@ -43,6 +41,7 @@ export class ChangePasswordComponent implements OnInit, OnDestroy {
         passwordConfirmation: ['', Validators.required]
       }, {validator: this.checkPasswords}
     );
+    this.error$ = this.store.select(changePasswordErrorSelector);
   }
 
   onSubmit(): void {
@@ -52,31 +51,7 @@ export class ChangePasswordComponent implements OnInit, OnDestroy {
       newPassword: this.changePasswordForm.value.password,
     };
     this.changePasswordForm.reset();
-
-    function isPasswordNotAcceptable(error: HttpErrorResponse) {
-      return error.status === 406
-    }
-
-    this.subscriptions.push(
-      this.userService.changePassword(changePasswordForm).subscribe(
-        () => {
-          this.error = null;
-          this.notificationService.notify(NotificationType.SUCCESS, this.translate.instant('notifications.Password successfully changed.'));
-          this.loading = false;
-        },
-        (error: HttpErrorResponse) => {
-          if (isPasswordNotAcceptable(error)) {
-            this.error = error.error.message;
-          } else {
-            this.notificationService.notify(NotificationType.ERROR, this.translate.instant('notifications.server error try again'));
-          }
-          this.loading = false;
-        }
-      ));
-  }
-
-
-  ngOnDestroy(): void {
-    this.subscriptions.forEach(sub => sub.unsubscribe());
+    this.store.dispatch(changePasswordAction({changePasswordForm}));
+    this.loading = false;
   }
 }

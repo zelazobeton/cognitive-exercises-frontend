@@ -1,10 +1,9 @@
 import {createFeatureSelector, createSelector} from '@ngrx/store';
 import {HomeState} from './home.reducer';
 import * as AppState from '../../app.state';
-import {CoreState} from '../../core/state/core.reducer';
 
 export interface State extends AppState.BaseState {
-  core: CoreState;
+  home: HomeState;
 }
 
 const homeFeatureSelector = createFeatureSelector<HomeState>('home');

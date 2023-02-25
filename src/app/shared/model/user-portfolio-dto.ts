@@ -1,6 +1,6 @@
 import {PortfolioDto} from './portfolio-dto';
 
-export class UserDto {
+export class UserPortfolioDto {
   public username: string;
   public email: string;
   public portfolio: PortfolioDto;

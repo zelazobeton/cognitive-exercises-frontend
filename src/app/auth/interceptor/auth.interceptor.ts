@@ -8,7 +8,7 @@ import {
 import {BehaviorSubject, Observable, throwError} from 'rxjs';
 import {AuthenticationService} from '../service/authentication.service';
 import {NonAuthenticatedUrlService} from '../service/non-authenticated-url.service';
-import {catchError, filter, switchMap, take} from 'rxjs/operators';
+import {catchError, filter, switchMap, take, tap} from 'rxjs/operators';
 import {Router} from '@angular/router';
 import {environment} from '../../../environments/environment';
 
@@ -31,7 +31,7 @@ export class AuthInterceptor implements HttpInterceptor {
     const request = this.createRequestWithTokenHeader(httpRequest, token);
     return next.handle(request).pipe(
       catchError(error => {
-        if (error instanceof HttpErrorResponse && error.status === 401 ) {
+        if (error instanceof HttpErrorResponse && error.status === 401) {
           return this.handle401Error(request, next);
         } else {
           return throwError(error);
@@ -47,11 +47,12 @@ export class AuthInterceptor implements HttpInterceptor {
       return this.authenticationService.refreshAccessToken().pipe(
         catchError(error => {
           this.isRefreshing = false;
-          this.authenticationService.logout();
-          this.router.navigateByUrl('/login');
-          return throwError(error);
+          return this.authenticationService.logout().pipe(tap(() => {
+            this.router.navigateByUrl('/login');
+            throwError(error);
+          }));
         }),
-        switchMap(token => {
+        switchMap((token: string) => {
           this.refreshTokenSubject.next(token);
           this.isRefreshing = false;
           return next.handle(this.createRequestWithTokenHeader(request, token));

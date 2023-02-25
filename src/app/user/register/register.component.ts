@@ -1,22 +1,23 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {Subscription} from 'rxjs';
+import {Observable} from 'rxjs';
 import {Router} from '@angular/router';
 import {AuthenticationService} from '../../auth/service/authentication.service';
-import {HttpErrorResponse} from '@angular/common/http';
-import {UserDto} from '../../shared/model/user-dto';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import { RegisterForm} from '../../shared/model/input-forms';
+import {RegisterForm} from '../../shared/model/input-forms';
+import {UserState} from '../state/user.reducer';
+import {Store} from '@ngrx/store';
+import {registerUserAction} from '../state/user.actions';
+import {registerUserErrorSelector} from '../state/user.selectors';
 
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css']
 })
-export class RegisterComponent implements OnInit, OnDestroy {
+export class RegisterComponent implements OnInit {
   public registerForm: FormGroup;
   public showLoading: boolean;
-  private subscriptions: Subscription[] = [];
-  public submitError: string | null = null;
+  public registerUserError$: Observable<string>;
   public formErrors = [];
 
   onValueChange() {
@@ -35,12 +36,15 @@ export class RegisterComponent implements OnInit, OnDestroy {
     }
   }
 
-  constructor(private router: Router, private authenticationService: AuthenticationService) {}
+  constructor(private store: Store<UserState>, private router: Router,
+              private authenticationService: AuthenticationService) {
+  }
 
   ngOnInit(): void {
     if (this.authenticationService.isUserLoggedIn()) {
       this.router.navigateByUrl('/');
     }
+    this.registerUserError$ = this.store.select(registerUserErrorSelector);
     this.registerForm = new FormGroup({
       username: new FormControl(null, [
         Validators.required, Validators.pattern('^[a-zA-Z0-9@.]+'), Validators.maxLength(50)]),
@@ -55,24 +59,8 @@ export class RegisterComponent implements OnInit, OnDestroy {
       email: this.registerForm.value.email
     };
     this.registerForm.reset();
-
-    this.subscriptions.push(
-      this.authenticationService.register(registerForm).subscribe(
-        (response: UserDto) => {
-          this.showLoading = false;
-          this.submitError = null;
-        },
-        (errorResponse: HttpErrorResponse) => {
-          console.error(errorResponse);
-          this.submitError = errorResponse.error.message;
-          this.showLoading = false;
-        }
-      )
-    );
-  }
-
-  ngOnDestroy(): void {
-    this.subscriptions.forEach(sub => sub.unsubscribe());
+    this.store.dispatch(registerUserAction({registerForm}));
+    this.showLoading = false;
   }
 
   get formControls() {

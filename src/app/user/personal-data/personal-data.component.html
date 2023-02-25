@@ -1,10 +1,10 @@
 <div class="container personal-data-container">
   <div class="row personal-data-row">
     <div class="d-flex align-items-center">
-      <img *ngIf="userData.portfolio.avatar != null"
-           height="100" width="100" [src]="userData.portfolio.avatar"
+      <img *ngIf="(portfolioDto$ | async).avatar !== null"
+           height="100" width="100" [src]="(portfolioDto$ | async).avatar"
            class="rounded-circle" alt=""/>
-      <h2 class="side-space">{{userData.username}}</h2>
+      <h2 class="side-space">{{(loggedUser$ | async).username}}</h2>
     </div>
   </div>
   <div class="row personal-data-row">
@@ -23,6 +23,6 @@
     </form>
   </div>
   <div class="row personal-data-row">
-    <p>Your score: {{userData.portfolio.totalScore}}</p>
+    <p>Your score: {{(portfolioDto$ | async).totalScore}}</p>
   </div>
 </div>

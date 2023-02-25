@@ -10,18 +10,26 @@ import {RegisterComponent} from './register/register.component';
 import {ResetPasswordComponent} from './reset-password/reset-password.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {TranslateModule} from '@ngx-translate/core';
+import {StoreModule} from '@ngrx/store';
+import {EffectsModule} from '@ngrx/effects';
+import {userReducer} from './state/user.reducer';
+import {UserEffects} from './state/user.effects';
+import {NavbarComponent} from './navbar/navbar.component';
+import {LoginDropdownComponent} from './login-dropdown/login-dropdown.component';
 
 @NgModule({
   declarations: [ChangePasswordComponent, LoginComponent, PersonalDataComponent, ProfilePageComponent,
-                 RegisterComponent, ResetPasswordComponent],
+                 RegisterComponent, ResetPasswordComponent, NavbarComponent, LoginDropdownComponent],
   providers: [],
-  exports: [RegisterComponent, LoginComponent],
+  exports: [RegisterComponent, LoginComponent, NavbarComponent, LoginDropdownComponent],
   imports: [AppRoutingModule,
             CommonModule,
             FormsModule,
             ReactiveFormsModule,
             TranslateModule,
-            NotificationModule]
+            NotificationModule,
+            StoreModule.forFeature('user', userReducer),
+            EffectsModule.forFeature([UserEffects])]
 })
 export class UserModule {
 };

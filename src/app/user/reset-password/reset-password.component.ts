@@ -1,31 +1,30 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Subscription} from 'rxjs';
 import {Router} from '@angular/router';
-import {HttpErrorResponse} from '@angular/common/http';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {UserService} from '../../core/services/user.service';
 import {AuthenticationService} from '../../auth/service/authentication.service';
-import {NotificationType} from '../../notification/notification-type.enum';
-import {NotificationService} from '../../notification/notification.service';
-import {CustomHttpResponse} from '../../shared/model/custom-http-response';
+import {UserState} from '../state/user.reducer';
+import {Store} from '@ngrx/store';
+import {resetPasswordAction} from '../state/user.actions';
 
 @Component({
   selector: 'app-reset-password',
   templateUrl: './reset-password.component.html',
   styleUrls: ['./reset-password.component.css']
 })
-export class ResetPasswordComponent implements OnInit, OnDestroy {
+export class ResetPasswordComponent implements OnInit {
   public resetPasswordForm: FormGroup;
   public showLoading: boolean;
-  private subscriptions: Subscription[] = [];
   public emailInputInvalid = false;
 
   showEmailInvalidError() {
     this.emailInputInvalid = this.formControls.email.invalid && this.formControls.email.dirty && this.formControls.email.value !== '';
   }
 
-  constructor(private router: Router, private userService: UserService, private authenticationService: AuthenticationService,
-              private notificationService: NotificationService) {}
+  constructor(private store: Store<UserState>, private router: Router, private userService: UserService,
+              private authenticationService: AuthenticationService) {
+  }
 
   ngOnInit(): void {
     if (this.authenticationService.isUserLoggedIn()) {
@@ -38,21 +37,8 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
 
   public onSubmit(): void {
     this.showLoading = true;
-    this.subscriptions.push(
-      this.userService.resetPassword(this.resetPasswordForm.value.email).subscribe(
-        (response: CustomHttpResponse) => {
-          this.notificationService.notify(NotificationType.SUCCESS, response.message);
-          this.showLoading = false;
-        },
-        (errorResponse: HttpErrorResponse) => {
-          this.showLoading = false;
-        }
-      )
-    );
-  }
-
-  ngOnDestroy(): void {
-    this.subscriptions.forEach(sub => sub.unsubscribe());
+    this.store.dispatch(resetPasswordAction({email: this.resetPasswordForm.value.email}));
+    this.showLoading = false;
   }
 
   get formControls() {

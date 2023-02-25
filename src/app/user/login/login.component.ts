@@ -1,26 +1,30 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {Subscription} from 'rxjs';
+import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {AuthenticationService} from '../../auth/service/authentication.service';
-import {HttpErrorResponse} from '@angular/common/http';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {AuthForm} from '../../shared/model/input-forms';
+import {loginUserAction} from '../state/user.actions';
+import {Store} from '@ngrx/store';
+import {loggedUserSelector, State} from '../state/user.selectors';
+import {tap} from 'rxjs/operators';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent implements OnInit, OnDestroy {
+export class LoginComponent implements OnInit {
   public loginForm: FormGroup;
-  private subscriptions: Subscription[] = [];
   public showLoading: boolean;
-  private returnUrl: string;
 
-  constructor(private router: Router, private authenticationService: AuthenticationService, private route: ActivatedRoute) {
+  constructor(private store: Store<State>, private router: Router, private authenticationService: AuthenticationService,
+              private route: ActivatedRoute) {
     if (authenticationService.isUserLoggedIn()) {
       this.router.navigateByUrl('/');
     }
+    this.store.select(loggedUserSelector).pipe(
+      tap(() => this.showLoading = false)
+    );
   }
 
   ngOnInit(): void {
@@ -29,7 +33,6 @@ export class LoginComponent implements OnInit, OnDestroy {
       password: new FormControl(null, [Validators.required])
     });
     this.showLoading = false;
-    this.returnUrl = this.route.snapshot.queryParams.returnUrl || '/';
   }
 
   onSubmit(): void {
@@ -39,18 +42,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       password: this.loginForm.value.password,
     };
     this.loginForm.reset();
-    this.subscriptions.push(
-      this.authenticationService.login(loginFormData).subscribe(
-        () => {
-          this.router.navigateByUrl(this.returnUrl);
-          this.showLoading = false;
-        },
-        (error: HttpErrorResponse) => this.showLoading = false
-      )
-    );
-  }
-
-  ngOnDestroy(): void {
-    this.subscriptions.forEach(sub => sub.unsubscribe());
+    this.store.dispatch(
+      loginUserAction({authForm: loginFormData, redirectUrl: this.route.snapshot.queryParams.returnUrl || '/'}));
   }
 }

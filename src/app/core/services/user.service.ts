@@ -4,12 +4,12 @@ import {environment} from '../../../environments/environment';
 import {Observable, throwError} from 'rxjs';
 import {CustomHttpResponse} from '../../shared/model/custom-http-response';
 import {ChangePasswordForm} from '../../shared/model/input-forms';
-import {UserDto} from '../../shared/model/user-dto';
 import {ScoreboardPageDto} from '../../shared/model/scoreboard-page-dto';
 import {catchError} from 'rxjs/operators';
 import {NotificationType} from '../../notification/notification-type.enum';
 import {NotificationService} from '../../notification/notification.service';
 import {TranslateService} from '@ngx-translate/core';
+import {UserPortfolioDto} from '../../shared/model/user-portfolio-dto';
 
 @Injectable()
 export class UserService {
@@ -26,23 +26,11 @@ export class UserService {
   }
 
   public resetPassword(email: string): Observable<CustomHttpResponse> {
-    return this.http.post<CustomHttpResponse>(`${this.versionedUserHost}/reset-password`, email)
-      .pipe(
-        catchError((error) => {
-          console.log(error);
-          this.notificationService.notify(NotificationType.ERROR, error.error.message);
-          return throwError(error);
-        }));
+    return this.http.post<CustomHttpResponse>(`${this.versionedUserHost}/reset-password`, email);
   }
 
-  public fetchUserData(): Observable<UserDto> {
-    return this.http.get<UserDto>(`${this.versionedUserHost}`)
-      .pipe(
-        catchError((error) => {
-          this.notificationService.notify(NotificationType.ERROR,
-            this.translate.instant('notifications.something went wrong on our side'));
-          return throwError(error);
-        }));
+  public fetchUserData(): Observable<UserPortfolioDto> {
+    return this.http.get<UserPortfolioDto>(`${this.versionedUserHost}`);
   }
 
   public fetchScoreboard(pageNum: number, pageSize: number): Observable<ScoreboardPageDto> {

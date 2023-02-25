@@ -1,55 +1,43 @@
-import {Component, Input, OnDestroy, OnInit} from '@angular/core';
-import {FormBuilder} from '@angular/forms';
-import {HttpErrorResponse} from '@angular/common/http';
-import {PortfolioService} from '../../core/services/portfolio.service';
-import {Subscription} from 'rxjs';
-import {UserDto} from '../../shared/model/user-dto';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Observable} from 'rxjs';
 import {PortfolioDto} from '../../shared/model/portfolio-dto';
-import {NotificationType} from '../../notification/notification-type.enum';
-import {NotificationService} from '../../notification/notification.service';
-import {TranslateService} from '@ngx-translate/core';
+import {loggedUserSelector, portfolioSelector} from '../state/user.selectors';
+import {Store} from '@ngrx/store';
+import {UserState} from '../state/user.reducer';
+import {updateAvatarAction} from '../state/user.actions';
+import {LoggedUserDto} from '../../shared/model/logged-user-dto';
 
 @Component({
   selector: 'app-personal-data',
   templateUrl: './personal-data.component.html',
   styleUrls: ['./personal-data.component.css'],
 })
-export class PersonalDataComponent implements OnInit, OnDestroy {
-  @Input() public userData: UserDto;
+export class PersonalDataComponent implements OnInit {
   public fileName: string;
   public profileImage: File;
-  loading: boolean;
-  private subscriptions: Subscription[] = [];
+  public loading: boolean;
+  public portfolioDto$: Observable<PortfolioDto>;
+  public loggedUser$: Observable<LoggedUserDto>;
 
-  constructor(private formBuilder: FormBuilder, private portfolioService: PortfolioService,
-              private notificationService: NotificationService,
-              private translate: TranslateService) {
+  constructor(private store: Store<UserState>) {
     this.loading = false;
   }
 
   ngOnInit(): void {
+    this.portfolioDto$ = this.store.select(portfolioSelector);
+    this.loggedUser$ = this.store.select(loggedUserSelector);
   }
 
   onSubmit(): void {
     this.loading = true;
     const formData = new FormData();
     formData.append('avatar', this.profileImage);
-    this.subscriptions.push(this.portfolioService.updateAvatar(formData).subscribe(
-      (response: PortfolioDto) => {
-        this.loading = false;
-        this.userData.portfolio = response;
-        this.notificationService.notify(NotificationType.SUCCESS, this.translate.instant('notifications.Avatar updated'));
-      },
-      (error: HttpErrorResponse) => this.loading = false)
-    );
+    this.store.dispatch(updateAvatarAction({avatarForm: formData}));
+    this.loading = false;
   }
 
   public onImageChange(fileName: string, profileImage: File): void {
     this.fileName = fileName;
     this.profileImage = profileImage;
-  }
-
-  ngOnDestroy(): void {
-    this.subscriptions.forEach(sub => sub.unsubscribe());
   }
 }
