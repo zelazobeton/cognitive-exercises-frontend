@@ -1,7 +1,11 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {Subscription} from 'rxjs';
-import {ScoreboardPageDto, UserScoreDto} from '../../shared/model/scoreboard-page-dto';
-import {UserService} from '../../core/services/user.service';
+import {UserScoreDto} from '../../shared/model/scoreboard-page-dto';
+import {Store} from '@ngrx/store';
+import {HomeState} from '../state/home.reducer';
+import {scoreBoardPageSelector} from '../state/home.selectors';
+import {getScoreBoardPageAction} from '../state/home.actions';
+import {takeUntil} from 'rxjs/operators';
+import {Subject} from 'rxjs';
 
 @Component({
   selector: 'app-scoreboard',
@@ -9,43 +13,44 @@ import {UserService} from '../../core/services/user.service';
   styleUrls: ['./scoreboard.component.css']
 })
 export class ScoreboardComponent implements OnInit, OnDestroy {
-  private scoreboardSub: Subscription;
-  public scoreboard: UserScoreDto[] = null;
+  private static readonly PAGE_SIZE = 10;
+  private userScores: UserScoreDto[];
   private pageNumber: number;
   private pagesTotal: number;
+  public ngDestroyed$ = new Subject();
 
-  constructor(private userService: UserService) {
+  constructor(private store: Store<HomeState>) {
   }
 
   getNextPage() {
     if (!this.isLastPage()) {
-      this.scoreboardSub = this.getScoreboardPage(this.pageNumber + 1);
+      this.store.dispatch(
+        getScoreBoardPageAction(
+          {pageNum: this.pageNumber + 1, pageSize: ScoreboardComponent.PAGE_SIZE}));
     }
   }
 
   getPreviousPage() {
     if (!this.isFirstPage()) {
-      this.scoreboardSub = this.getScoreboardPage(this.pageNumber - 1);
+      this.store.dispatch(
+        getScoreBoardPageAction(
+          {pageNum: this.pageNumber - 1, pageSize: ScoreboardComponent.PAGE_SIZE}));
     }
   }
 
   ngOnInit() {
-    this.scoreboardSub = this.getScoreboardPage();
+    this.store.dispatch(getScoreBoardPageAction({pageNum: 0, pageSize: 10}));
+    this.store.select(scoreBoardPageSelector)
+      .pipe(takeUntil(this.ngDestroyed$))
+      .subscribe((scoreboardPage) => {
+        this.userScores = scoreboardPage?.userScores;
+        this.pageNumber = scoreboardPage?.pageNumber;
+        this.pagesTotal = scoreboardPage?.pagesTotal;
+      })
   }
 
-  ngOnDestroy(): void {
-    if (this.scoreboardSub != null) {
-      this.scoreboardSub.unsubscribe();
-    }
-  }
-
-  private getScoreboardPage(pageNum = 0, pageSize = 10): Subscription {
-    return this.userService.fetchScoreboard(pageNum, pageSize).subscribe(
-      (res: ScoreboardPageDto) => {
-        this.scoreboard = res.userScores;
-        this.pageNumber = res.pageNumber;
-        this.pagesTotal = res.pagesTotal;
-      });
+  public ngOnDestroy() {
+    this.ngDestroyed$.next();
   }
 
   public isLastPage() {

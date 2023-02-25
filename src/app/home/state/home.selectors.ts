@@ -17,3 +17,8 @@ export const gamesDataErrorSelector = createSelector(
   homeFeatureSelector,
   state => state.getGamesError
 );
+
+export const scoreBoardPageSelector = createSelector(
+  homeFeatureSelector,
+  state => state.scoreboardPage
+);

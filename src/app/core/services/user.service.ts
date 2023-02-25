@@ -1,14 +1,10 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpErrorResponse, HttpResponse} from '@angular/common/http';
 import {environment} from '../../../environments/environment';
-import {Observable, throwError} from 'rxjs';
+import {Observable} from 'rxjs';
 import {CustomHttpResponse} from '../../shared/model/custom-http-response';
 import {ChangePasswordForm} from '../../shared/model/input-forms';
 import {ScoreboardPageDto} from '../../shared/model/scoreboard-page-dto';
-import {catchError} from 'rxjs/operators';
-import {NotificationType} from '../../notification/notification-type.enum';
-import {NotificationService} from '../../notification/notification.service';
-import {TranslateService} from '@ngx-translate/core';
 import {UserPortfolioDto} from '../../shared/model/user-portfolio-dto';
 
 @Injectable()
@@ -16,8 +12,7 @@ export class UserService {
   private readonly versionedUserHost = environment.apiUrl + '/main/user/v1';
   private readonly versionedPortfolioHost = environment.apiUrl + '/main/portfolio/v1';
 
-  constructor(private http: HttpClient, private notificationService: NotificationService,
-              private translate: TranslateService) {
+  constructor(private http: HttpClient) {
   }
 
   public changePassword(changePasswordForm: ChangePasswordForm) {
@@ -36,12 +31,6 @@ export class UserService {
   public fetchScoreboard(pageNum: number, pageSize: number): Observable<ScoreboardPageDto> {
     return this.http.get<ScoreboardPageDto>(
       `${this.versionedPortfolioHost}/scoreboard`,
-      {params: {page: pageNum.toString(), size: pageSize.toString()}})
-      .pipe(
-        catchError((error) => {
-          this.notificationService.notify(NotificationType.ERROR,
-            this.translate.instant('notifications.something went wrong on our side'));
-          return throwError(error);
-        }));
+      {params: {page: pageNum.toString(), size: pageSize.toString()}});
   }
 }
